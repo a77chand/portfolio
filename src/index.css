@@ -1,6 +1,24 @@
 /* ============ BASE ============ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* everything else sits above the video */
+.nav, .pin-wrap, .stage, .sec, .proj-outer {
+  position: relative;
+  z-index: 1;
+}
+
 body {
   background: #080808;
   color: #f0f0f0;

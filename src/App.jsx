@@ -18,6 +18,16 @@ const galleryItems = [
 export default function App() {
   return (
     <>
+      <video
+        className="bg-video"
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/BG-code.mp4" type="video/mp4" />
+      </video>
+
       <canvas id="comet"></canvas>
 
       <div style={{ position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
