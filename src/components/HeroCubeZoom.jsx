@@ -117,49 +117,29 @@ export default function HeroCubeZoom() {
     };
     fitT();
 
-    // hero float video — created in JS so React never remounts it
+    // Hero float video
     const stageEl = stageRef.current;
-    let onHeroInteract;
-    const existingVideo = stageEl.querySelector('.hero-float-video');
-    if (!existingVideo) {
+    if (stageEl && !stageEl.querySelector('.hero-float-video')) {
       const vid = document.createElement('video');
       vid.className = 'hero-float-video';
+      vid.src = '/hero-float-silent.mp4';
       vid.loop = true;
       vid.muted = true;
       vid.playsInline = true;
-      vid.setAttribute('muted', '');
-      vid.setAttribute('playsinline', '');
-      vid.setAttribute('preload', 'auto');
       vid.controls = false;
-      vid.removeAttribute('controls');
-
-      const src = document.createElement('source');
-      src.src = '/hero-float.mp4';
-      src.type = 'video/mp4';
-      vid.appendChild(src);
-      stageEl.appendChild(vid);
-
-      vid.load();
-
-      // Try autoplay immediately
-      const tryPlay = () => {
-        vid.muted = true;
-        vid.play().catch(() => {});
-      };
-      tryPlay();
-
-      // Also try on any user interaction — covers browsers that block autoplay
-      onHeroInteract = () => {
-        vid.play().catch(() => {});
-        document.removeEventListener('click', onHeroInteract);
-        document.removeEventListener('keydown', onHeroInteract);
-        document.removeEventListener('touchstart', onHeroInteract);
-        document.removeEventListener('scroll', onHeroInteract);
-      };
-      document.addEventListener('click', onHeroInteract);
-      document.addEventListener('keydown', onHeroInteract);
-      document.addEventListener('touchstart', onHeroInteract);
-      document.addEventListener('scroll', onHeroInteract, { once: true });
+      vid.autoplay = true;
+      vid.style.position = 'absolute';
+      vid.style.inset = '0';
+      vid.style.width = '100%';
+      vid.style.height = '100%';
+      vid.style.objectFit = 'cover';
+      vid.style.opacity = '0.55';
+      vid.style.zIndex = '3';
+      vid.style.pointerEvents = 'none';
+      vid.style.mixBlendMode = 'screen';
+      stageEl.insertBefore(vid, stageEl.firstChild);
+      vid.muted = true;
+      vid.play().catch(() => {});
     }
 
     const noise = (x, z, t) =>
@@ -297,12 +277,6 @@ export default function HeroCubeZoom() {
       window.removeEventListener('resize', onResize);
       if (fitComet) window.removeEventListener('resize', fitComet);
       if (onCometMove) window.removeEventListener('mousemove', onCometMove);
-      if (onHeroInteract) {
-        document.removeEventListener('click', onHeroInteract);
-        document.removeEventListener('keydown', onHeroInteract);
-        document.removeEventListener('touchstart', onHeroInteract);
-        document.removeEventListener('scroll', onHeroInteract);
-      }
       const vid = stageRef.current?.querySelector('.hero-float-video');
       if (vid) vid.remove();
     };

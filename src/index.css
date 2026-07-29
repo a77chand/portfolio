@@ -54,21 +54,19 @@ a { text-decoration: none; color: inherit; }
   object-fit: cover;
   opacity: 0.55;
   z-index: 3;
-  pointer-events: none;
+  pointer-events: none !important;
   mix-blend-mode: screen;
-  display: block;
 }
-.hero-float-video::-webkit-media-controls {
+
+.hero-float-video::-webkit-media-controls,
+.hero-float-video::-webkit-media-controls-enclosure,
+.hero-float-video::-webkit-media-controls-panel,
+.hero-float-video::-webkit-media-controls-play-button,
+.hero-float-video::-webkit-media-controls-start-playback-button,
+.hero-float-video::-webkit-media-controls-overlay-play-button {
   display: none !important;
-}
-.hero-float-video::-webkit-media-controls-start-playback-button {
-  display: none !important;
-}
-.hero-float-video::-webkit-media-controls-panel {
-  display: none !important;
-}
-video::-webkit-media-controls {
-  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 .cube-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
 .lanyard-slot { position: absolute; right: 26%; top: 5%; width: 38%; height: 90vh; z-index: 6; }
