@@ -119,24 +119,47 @@ export default function HeroCubeZoom() {
 
     // hero float video — created in JS so React never remounts it
     const stageEl = stageRef.current;
+    let onHeroInteract;
     const existingVideo = stageEl.querySelector('.hero-float-video');
     if (!existingVideo) {
       const vid = document.createElement('video');
       vid.className = 'hero-float-video';
-      vid.autoplay = true;
       vid.loop = true;
       vid.muted = true;
       vid.playsInline = true;
-      vid.setAttribute('playsinline', '');
       vid.setAttribute('muted', '');
+      vid.setAttribute('playsinline', '');
+      vid.setAttribute('preload', 'auto');
+      vid.controls = false;
+      vid.removeAttribute('controls');
+
       const src = document.createElement('source');
       src.src = '/hero-float.mp4';
       src.type = 'video/mp4';
       vid.appendChild(src);
       stageEl.appendChild(vid);
-      // force play immediately
+
       vid.load();
-      vid.play().catch(() => {});
+
+      // Try autoplay immediately
+      const tryPlay = () => {
+        vid.muted = true;
+        vid.play().catch(() => {});
+      };
+      tryPlay();
+
+      // Also try on any user interaction — covers browsers that block autoplay
+      onHeroInteract = () => {
+        vid.play().catch(() => {});
+        document.removeEventListener('click', onHeroInteract);
+        document.removeEventListener('keydown', onHeroInteract);
+        document.removeEventListener('touchstart', onHeroInteract);
+        document.removeEventListener('scroll', onHeroInteract);
+      };
+      document.addEventListener('click', onHeroInteract);
+      document.addEventListener('keydown', onHeroInteract);
+      document.addEventListener('touchstart', onHeroInteract);
+      document.addEventListener('scroll', onHeroInteract, { once: true });
     }
 
     const noise = (x, z, t) =>
@@ -274,6 +297,12 @@ export default function HeroCubeZoom() {
       window.removeEventListener('resize', onResize);
       if (fitComet) window.removeEventListener('resize', fitComet);
       if (onCometMove) window.removeEventListener('mousemove', onCometMove);
+      if (onHeroInteract) {
+        document.removeEventListener('click', onHeroInteract);
+        document.removeEventListener('keydown', onHeroInteract);
+        document.removeEventListener('touchstart', onHeroInteract);
+        document.removeEventListener('scroll', onHeroInteract);
+      }
       const vid = stageRef.current?.querySelector('.hero-float-video');
       if (vid) vid.remove();
     };

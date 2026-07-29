@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import GooeyNav from './components/GooeyNav/GooeyNav.jsx';
 import CircularGallery from './components/CircularGallery/CircularGallery.jsx';
 import HeroCubeZoom from './components/HeroCubeZoom.jsx';
@@ -16,6 +17,19 @@ const galleryItems = [
 ];
 
 export default function App() {
+  useEffect(() => {
+    const bgVid = document.querySelector('.bg-video');
+    if (!bgVid) return;
+    bgVid.muted = true;
+    bgVid.play().catch(() => {});
+    const onInteract = () => {
+      bgVid.play().catch(() => {});
+      document.removeEventListener('click', onInteract);
+    };
+    document.addEventListener('click', onInteract);
+    return () => document.removeEventListener('click', onInteract);
+  }, []);
+
   return (
     <>
       <video
