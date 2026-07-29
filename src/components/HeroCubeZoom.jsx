@@ -258,6 +258,16 @@ export default function HeroCubeZoom() {
   return (
     <div className="pin-wrap" id="top" ref={pinRef}>
       <div className="stage" ref={stageRef}>
+        <video
+          className="hero-float-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="/hero-float.mp4" type="video/mp4" />
+        </video>
+
         <canvas className="hero-wave" ref={terrainRef} />
         <div className="flash" ref={flashRef} />
 
