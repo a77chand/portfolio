@@ -24,6 +24,7 @@ export default function App() {
         loop
         muted
         playsInline
+        ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
       >
         <source src="/BG-code.mp4" type="video/mp4" />
       </video>

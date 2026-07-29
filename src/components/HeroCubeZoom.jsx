@@ -117,6 +117,28 @@ export default function HeroCubeZoom() {
     };
     fitT();
 
+    // hero float video — created in JS so React never remounts it
+    const stageEl = stageRef.current;
+    const existingVideo = stageEl.querySelector('.hero-float-video');
+    if (!existingVideo) {
+      const vid = document.createElement('video');
+      vid.className = 'hero-float-video';
+      vid.autoplay = true;
+      vid.loop = true;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('playsinline', '');
+      vid.setAttribute('muted', '');
+      const src = document.createElement('source');
+      src.src = '/hero-float.mp4';
+      src.type = 'video/mp4';
+      vid.appendChild(src);
+      stageEl.appendChild(vid);
+      // force play immediately
+      vid.load();
+      vid.play().catch(() => {});
+    }
+
     const noise = (x, z, t) =>
       Math.sin(x * 0.9 + t) * Math.cos(z * 0.7 - t * 0.6) +
       Math.sin(x * 1.7 - t * 0.8 + z * 0.5) * 0.5 +
@@ -252,23 +274,14 @@ export default function HeroCubeZoom() {
       window.removeEventListener('resize', onResize);
       if (fitComet) window.removeEventListener('resize', fitComet);
       if (onCometMove) window.removeEventListener('mousemove', onCometMove);
+      const vid = stageRef.current?.querySelector('.hero-float-video');
+      if (vid) vid.remove();
     };
   }, []);
 
   return (
     <div className="pin-wrap" id="top" ref={pinRef}>
       <div className="stage" ref={stageRef}>
-        <video
-          className="hero-float-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{ display: 'block' }}
-        >
-          <source src="/hero-float.mp4" type="video/mp4" />
-        </video>
-
         <canvas className="hero-wave" ref={terrainRef} />
         <div className="flash" ref={flashRef} />
 
