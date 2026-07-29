@@ -264,6 +264,7 @@ export default function HeroCubeZoom() {
           loop
           muted
           playsInline
+          style={{ display: 'block' }}
         >
           <source src="/hero-float.mp4" type="video/mp4" />
         </video>
