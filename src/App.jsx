@@ -67,7 +67,8 @@ export default function App() {
           <Orb size={200} />
           <div className="about-text">
             <p>Hi, I'm <span className="hi">Anusha Chandra</span> — CS student at the <span className="hi">University of Waterloo</span>.</p>
-            <p>I build things at the intersection of <span className="vi">software, finance, and ethics</span>. Research contributor at <span className="vi">SIGCSE 2025</span>, co-creator of <span className="vi">Ethicura AI</span> at NYAS, and builder of <span className="vi">Tend</span>, a wellness app for unpaid caregivers — passionate about responsible AI throughout.</p>
+            <p>I build things at the intersection of <span className="vi">software, machine learning, and ethics</span>. Co-creator of <span className="vi">Ethicura AI</span> at NYAS — a deepfake detector (<span className="vi">XceptionNet + MTCNN</span>) that explains every call with Grad-CAM, served through a <span className="vi">FastAPI</span> API.</p>
+            <p>I also built a <span className="vi">wildfire risk predictor</span> — a Random Forest on NASA FIRMS satellite data across British Columbia (<span className="vi">ROC-AUC ≈ 0.91</span>). Research contributor at <span className="vi">SIGCSE 2025</span> and builder of <span className="vi">Tend</span>, a wellness app for unpaid caregivers — passionate about responsible AI throughout.</p>
           </div>
         </div>
         <p className="code-close">{'}'}</p>
@@ -83,11 +84,17 @@ export default function App() {
             <div className="sk-row"><span className="sk-logo sk-badge">Rkt</span><span className="sk-name">Racket</span></div>
             <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="" /><span className="sk-name">HTML / CSS</span></div>
             <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="" /><span className="sk-name">scikit-learn</span></div>
+            <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="" /><span className="sk-name">TensorFlow / Keras</span></div>
+            <div className="sk-row"><img className="sk-logo sk-pandas" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="" /><span className="sk-name">pandas</span></div>
+            <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="" /><span className="sk-name">NumPy</span></div>
           </div>
           <div>
             <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="" /><span className="sk-name">React</span></div>
             <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="" /><span className="sk-name">Node.js</span></div>
+            <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="" /><span className="sk-name">FastAPI</span></div>
             <div className="sk-row"><img className="sk-logo sk-invert" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="" /><span className="sk-name">Flask</span></div>
+            <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" alt="" /><span className="sk-name">OpenCV</span></div>
+            <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="" /><span className="sk-name">Jupyter</span></div>
             <div className="sk-row"><img className="sk-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="" /><span className="sk-name">Git</span></div>
             <div className="sk-row"><img className="sk-logo sk-invert" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="" /><span className="sk-name">Vercel</span></div>
           </div>
@@ -98,8 +105,9 @@ export default function App() {
       <section className="sec" id="interests">
         <h2 className="code-head">INTERESTS <span className="br">{'{'}</span></h2>
         <div className="int-strip">
-          <div className="int-cell"><span className="int-name">AI</span></div>
-          <div className="int-cell"><span className="int-name">ML / AI</span></div>
+          <div className="int-cell"><span className="int-name">AI / ML</span></div>
+          <div className="int-cell"><span className="int-name">Computer Vision</span></div>
+          <div className="int-cell"><span className="int-name">Geospatial &amp; Climate</span></div>
           <div className="int-cell"><span className="int-name">Game Dev</span></div>
           <div className="int-cell"><span className="int-name">Open Source</span></div>
         </div>

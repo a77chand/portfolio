@@ -124,6 +124,7 @@ a { text-decoration: none; color: inherit; }
 .sk-row { display: flex; align-items: center; gap: 14px; padding: 9px 0; }
 .sk-logo { width: 30px; height: 30px; flex-shrink: 0; }
 .sk-invert { filter: invert(1); }
+.sk-pandas { filter: invert(1) hue-rotate(180deg); }
 .sk-badge { border-radius: 7px; background: #2a1a3a; color: #c49aff; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; }
 .sk-name { font-size: 15px; color: #ddd; }
 
