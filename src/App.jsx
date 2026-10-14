@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPlayOnceVideo } from './playOnce.js';
 import GooeyNav from './components/GooeyNav/GooeyNav.jsx';
 import HeroCubeZoom from './components/HeroCubeZoom.jsx';
 import Orb from './components/Orb.jsx';
@@ -17,46 +18,9 @@ const galleryItems = [
 
 export default function App() {
   useEffect(() => {
-    // Build the video imperatively so Safari sees muted/playsinline before src loads.
-    const vid = document.createElement('video');
-    vid.className = 'bg-video';
-    vid.setAttribute('muted', '');
-    vid.setAttribute('playsinline', '');
-    vid.setAttribute('webkit-playsinline', '');
-    vid.setAttribute('disablepictureinpicture', '');
-    vid.setAttribute('disableremoteplayback', '');
-    vid.setAttribute('x-webkit-airplay', 'deny');
-    vid.muted = true;
-    vid.defaultMuted = true;
-    vid.playsInline = true;
-    vid.controls = false;
-    vid.loop = false; // play once, freeze on the last frame
-    vid.autoplay = true;
-    vid.preload = 'auto';
-    vid.src = '/BG-code.mp4';
+    const { vid, cleanup } = createPlayOnceVideo('/BG-code.mp4', 'bg-video');
     document.body.insertBefore(vid, document.body.firstChild);
-
-    const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
-    const media = ['loadedmetadata', 'loadeddata', 'canplay'];
-    const tryPlay = () => {
-      if (vid.ended || !vid.paused) return;
-      vid.play().catch(() => {});
-    };
-    const done = () => {
-      events.forEach(e => window.removeEventListener(e, tryPlay));
-      media.forEach(e => vid.removeEventListener(e, tryPlay));
-    };
-    media.forEach(e => vid.addEventListener(e, tryPlay));
-    events.forEach(e => window.addEventListener(e, tryPlay, { passive: true }));
-    vid.addEventListener('playing', done, { once: true });
-    tryPlay();
-    const t = setTimeout(tryPlay, 300);
-
-    return () => {
-      clearTimeout(t);
-      done();
-      vid.remove();
-    };
+    return cleanup;
   }, []);
 
   return (
@@ -134,7 +98,7 @@ export default function App() {
       <section className="sec" id="interests">
         <h2 className="code-head">INTERESTS <span className="br">{'{'}</span></h2>
         <div className="int-strip">
-          <div className="int-cell"><span className="int-name">FinTech</span></div>
+          <div className="int-cell"><span className="int-name">AI</span></div>
           <div className="int-cell"><span className="int-name">ML / AI</span></div>
           <div className="int-cell"><span className="int-name">Game Dev</span></div>
           <div className="int-cell"><span className="int-name">Open Source</span></div>

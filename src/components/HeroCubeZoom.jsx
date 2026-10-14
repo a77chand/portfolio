@@ -1,6 +1,7 @@
 // Hero with terrain wave, typing eyebrow, and the scroll-driven cube zoom.
 // Same math as the vanilla version, wrapped in React refs + useEffect.
 import { useEffect, useRef } from 'react';
+import { createPlayOnceVideo } from '../playOnce.js';
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const cl = v => Math.max(0, Math.min(1, v));
@@ -115,29 +116,13 @@ export default function HeroCubeZoom() {
     };
     fitT();
 
-    // Hero float video
+    // Hero float video: plays once, freezes on the last frame
     const stageEl = stageRef.current;
+    let floatCleanup;
     if (stageEl && !stageEl.querySelector('.hero-float-video')) {
-      const vid = document.createElement('video');
-      vid.className = 'hero-float-video';
-      vid.src = '/hero-float-silent.mp4';
-      vid.loop = true;
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.controls = false;
-      vid.autoplay = true;
-      vid.style.position = 'absolute';
-      vid.style.inset = '0';
-      vid.style.width = '100%';
-      vid.style.height = '100%';
-      vid.style.objectFit = 'cover';
-      vid.style.opacity = '0.55';
-      vid.style.zIndex = '3';
-      vid.style.pointerEvents = 'none';
-      vid.style.mixBlendMode = 'screen';
+      const { vid, cleanup } = createPlayOnceVideo('/hero-float-silent.mp4', 'hero-float-video');
+      floatCleanup = cleanup;
       stageEl.insertBefore(vid, stageEl.firstChild);
-      vid.muted = true;
-      vid.play().catch(() => {});
     }
 
     const noise = (x, z, t) =>
@@ -274,8 +259,7 @@ export default function HeroCubeZoom() {
       window.removeEventListener('resize', onResize);
       if (fitComet) window.removeEventListener('resize', fitComet);
       if (onCometMove) window.removeEventListener('mousemove', onCometMove);
-      const vid = stageRef.current?.querySelector('.hero-float-video');
-      if (vid) vid.remove();
+      if (floatCleanup) floatCleanup();
     };
   }, []);
 
@@ -294,7 +278,7 @@ export default function HeroCubeZoom() {
             ANUSHA<br />
             <span className="out">CHANDRA</span>
           </h1>
-          <p className="hero-role">// developer&nbsp;&nbsp;·&nbsp;&nbsp;fintech&nbsp;&nbsp;·&nbsp;&nbsp;ml&nbsp;&nbsp;·&nbsp;&nbsp;full stack</p>
+          <p className="hero-role">// developer&nbsp;&nbsp;·&nbsp;&nbsp;ai&nbsp;&nbsp;·&nbsp;&nbsp;ml&nbsp;&nbsp;·&nbsp;&nbsp;full stack</p>
         </div>
 
         <canvas className="cube-canvas" ref={cubeRef} />
