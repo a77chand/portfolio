@@ -116,7 +116,7 @@ export default function App() {
 
       <section className="sec" id="contact">
         <h2 className="code-head">CONTACT <span className="br">{'{'}</span></h2>
-        <DotMatrix text="LET'S CONNECT" height={110} />
+        <DotMatrix text="LET'S CONNECT" height={190} />
         <p className="contact-line">Have a project in mind? My inbox is always open.</p>
         <ContactForm />
         <div className="c-side">
