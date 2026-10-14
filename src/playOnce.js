@@ -1,8 +1,8 @@
 // Safari-safe muted video that plays once and freezes on the last frame.
 //
 // Safari paints its own play button on any visible <video> and CSS can't remove it,
-// so the real <video> is a small decoder hidden behind the page (the page background
-// canvas covers it) and its frames are drawn onto a canvas (returned as `vid`, styled
+// so the real <video> is a small decoder hidden behind the page (a solid cover layer
+// sits over it) and its frames are drawn onto a canvas (returned as `vid`, styled
 // by `className`) that has no native controls.
 //
 // Autoplay can be blocked outright (Safari in Low Power Mode, strict autoplay
@@ -13,8 +13,22 @@
 let resolveHero;
 export const heroReady = { promise: new Promise(r => { resolveHero = r; }), resolve: () => resolveHero() };
 
+// Solid page-colored layer between the hidden decoder videos (z-index -2) and the page.
+// If Safari draws its native play button on a decoder, it lands under this cover.
+function ensureCover() {
+  if (document.getElementById('video-cover')) return;
+  const cover = document.createElement('div');
+  cover.id = 'video-cover';
+  Object.assign(cover.style, {
+    position: 'fixed', inset: '0', background: '#080808', zIndex: '-1', pointerEvents: 'none',
+  });
+  document.body.insertBefore(cover, document.body.firstChild);
+}
+
 export function createPlayOnceVideo(src, className, { waitFor, isHero } = {}) {
+  ensureCover();
   const video = document.createElement('video');
+  video.className = 'video-decoder';
   const vid = document.createElement('canvas');
   vid.className = className;
   vid.width = 1280;
@@ -24,7 +38,7 @@ export function createPlayOnceVideo(src, className, { waitFor, isHero } = {}) {
   // Safari only autoplays videos it considers visible: real size, opaque, in viewport.
   Object.assign(video.style, {
     position: 'fixed', left: '0', top: '0', width: '160px', height: '90px',
-    opacity: '1', pointerEvents: 'none', zIndex: '-1',
+    opacity: '1', pointerEvents: 'none', zIndex: '-2',
   });
   video.setAttribute('muted', '');
   video.setAttribute('playsinline', '');
