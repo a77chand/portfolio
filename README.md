@@ -25,7 +25,7 @@ Projects are plain clickable cards (image + title) that open the project link in
 ## Background and hero videos
 Both videos play **once** and stay frozen on their last frame (no looping).
 
-- **Page background** — `BG-code.mp4`, fixed behind the whole page. Brightness is set by the `filter` on `.bg-video` in `index.css` (currently `brightness(3.42)`); the source video is nearly black, so opacity alone isn't enough.
+- **Page background** — `BG-code.mp4`, fixed behind the whole page. Brightness is set by the `filter` on `.bg-video` in `index.css` (currently `brightness(3.4)`); the source video is nearly black, so opacity alone isn't enough.
 - **Hero animation** — `hero-float-silent.mp4`, blended over the hero (`.hero-float-video`).
 
 ### Why videos are drawn on a canvas
