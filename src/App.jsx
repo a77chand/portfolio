@@ -48,7 +48,7 @@ export default function App() {
 
       <HeroCubeZoom />
 
-      <section className="sec sec-full" id="projects">
+      <section className="sec" id="projects">
         <h2 className="code-head">PROJECTS <span className="br">{'{'}</span></h2>
         <div className="proj-grid">
           {galleryItems.map(it => (

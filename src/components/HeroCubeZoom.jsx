@@ -192,7 +192,8 @@ export default function HeroCubeZoom() {
 
     const V = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
     const E = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
-    let angle = 0, cubeX = 0, cubeY = 0, cubeR = 60, cubeOp = 1;
+    const CUBE_BASE = 95; // starting cube size
+    let angle = 0, cubeX = 0, cubeY = 0, cubeR = CUBE_BASE, cubeOp = 1;
 
     const drawCube = () => {
       if (!alive) return;
@@ -238,10 +239,10 @@ export default function HeroCubeZoom() {
       if (cueRef.current) cueRef.current.style.opacity = p > 0.05 ? 0 : 1;
 
       cubeX = lerp(CW - Math.min(CW * 0.22, 190), CW / 2, a);
-      cubeY = lerp(Math.min(CH * 0.28, 200), CH / 2, a);
+      cubeY = lerp(Math.min(CH * 0.28, 200) + 14, CH / 2, a);
 
       const b = ease(cl((p - 0.3) / 0.55));
-      cubeR = 60 + b * CW * 1.4;
+      cubeR = CUBE_BASE + b * CW * 1.4;
 
       const c = ease(cl((p - 0.8) / 0.2));
       if (flashRef.current) flashRef.current.style.opacity = b > 0.4 ? ease(cl((b - 0.4) / 0.4)) * (1 - c) : 0;
