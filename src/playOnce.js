@@ -1,38 +1,68 @@
 // Safari-safe muted autoplay that plays once and freezes on the last frame.
+// Safari paints its own play button on any visible <video> and CSS can't remove it,
+// so the real <video> is a tiny invisible decoder and its frames are drawn onto a
+// canvas (returned as `vid`, styled by `className`) that has no native controls.
 // Attributes are set before src so Safari treats the element as muted inline media.
 export function createPlayOnceVideo(src, className) {
-  const vid = document.createElement('video');
+  const video = document.createElement('video');
+  const vid = document.createElement('canvas');
   vid.className = className;
-  vid.setAttribute('muted', '');
-  vid.setAttribute('playsinline', '');
-  vid.setAttribute('webkit-playsinline', '');
-  vid.setAttribute('disablepictureinpicture', '');
-  vid.setAttribute('disableremoteplayback', '');
-  vid.setAttribute('x-webkit-airplay', 'deny');
-  vid.muted = true;
-  vid.defaultMuted = true;
-  vid.playsInline = true;
-  vid.controls = false;
-  vid.loop = false;
-  vid.autoplay = true;
-  vid.preload = 'auto';
-  vid.src = src;
+  vid.width = 1280;
+  vid.height = 720;
+  const ctx = vid.getContext('2d');
+  Object.assign(video.style, {
+    position: 'fixed', right: '0', bottom: '0', width: '2px', height: '2px',
+    opacity: '0.01', pointerEvents: 'none', zIndex: '-1',
+  });
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+  video.setAttribute('disablepictureinpicture', '');
+  video.setAttribute('disableremoteplayback', '');
+  video.setAttribute('x-webkit-airplay', 'deny');
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.controls = false;
+  video.loop = false;
+  video.autoplay = true;
+  video.preload = 'auto';
+  video.src = src;
+  document.body.appendChild(video);
 
   const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
   const media = ['loadedmetadata', 'loadeddata', 'canplay'];
   const tryPlay = () => {
-    if (vid.ended || !vid.paused) return;
-    vid.play().catch(() => {});
+    if (video.ended || !video.paused) return;
+    video.play().catch(() => {});
   };
   const stop = () => {
     events.forEach(e => window.removeEventListener(e, tryPlay));
-    media.forEach(e => vid.removeEventListener(e, tryPlay));
+    media.forEach(e => video.removeEventListener(e, tryPlay));
   };
-  media.forEach(e => vid.addEventListener(e, tryPlay));
+  media.forEach(e => video.addEventListener(e, tryPlay));
   events.forEach(e => window.addEventListener(e, tryPlay, { passive: true }));
-  vid.addEventListener('playing', stop, { once: true });
+  video.addEventListener('playing', stop, { once: true });
   tryPlay();
   const t = setTimeout(tryPlay, 300);
 
-  return { vid, cleanup: () => { clearTimeout(t); stop(); vid.remove(); } };
+  // Paint frames until the video ends; the canvas then keeps the last frame.
+  let raf = 0;
+  const draw = () => {
+    if (video.readyState >= 2) ctx.drawImage(video, 0, 0, vid.width, vid.height);
+    if (!video.ended) raf = requestAnimationFrame(draw);
+  };
+  raf = requestAnimationFrame(draw);
+  video.addEventListener('ended', draw);
+
+  return {
+    vid,
+    cleanup: () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+      stop();
+      video.remove();
+      vid.remove();
+    },
+  };
 }
