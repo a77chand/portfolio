@@ -19,15 +19,39 @@ export default function App() {
   useEffect(() => {
     const bgVid = document.querySelector('.bg-video');
     if (!bgVid) return;
+    // React sets muted as a property only; autoplay policies want the attribute.
+    bgVid.setAttribute('muted', '');
     bgVid.muted = true;
     bgVid.loop = false;
-    bgVid.play().catch(() => {});
-    const onInteract = () => {
-      if (!bgVid.ended) bgVid.play().catch(() => {});
-      document.removeEventListener('click', onInteract);
+    bgVid.setAttribute('playsinline', '');
+
+    const tryPlay = () => {
+      if (bgVid.ended || !bgVid.paused) return;
+      bgVid.play().catch(() => {});
     };
-    document.addEventListener('click', onInteract);
-    return () => document.removeEventListener('click', onInteract);
+    const onPlaying = () => {
+      bgVid.classList.add('ready');
+      cleanup();
+    };
+    const events = ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart', 'click'];
+    const cleanup = () => {
+      events.forEach(e => window.removeEventListener(e, tryPlay));
+      ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(e => bgVid.removeEventListener(e, tryPlay));
+    };
+
+    ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(e => bgVid.addEventListener(e, tryPlay));
+    events.forEach(e => window.addEventListener(e, tryPlay, { passive: true }));
+    bgVid.addEventListener('playing', onPlaying);
+    bgVid.load();
+    tryPlay();
+    // second attempt shortly after mount, in case the first raced the load
+    const t = setTimeout(tryPlay, 300);
+
+    return () => {
+      clearTimeout(t);
+      cleanup();
+      bgVid.removeEventListener('playing', onPlaying);
+    };
   }, []);
 
   return (
@@ -40,7 +64,6 @@ export default function App() {
         controls={false}
         disablePictureInPicture
         preload="auto"
-        ref={el => { if (el) { el.muted = true; el.loop = false; el.play().catch(() => {}); } }}
       >
         <source src="/BG-code.mp4" type="video/mp4" />
       </video>
