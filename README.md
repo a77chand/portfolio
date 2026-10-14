@@ -25,11 +25,14 @@ Projects are plain clickable cards (image + title) that open the project link in
 ## Background and hero videos
 Both videos play **once** and stay frozen on their last frame (no looping).
 
-- **Page background** — `BG-code.mp4`, fixed behind the whole page. Brightness is set by the `filter` on `.bg-video` in `index.css` (currently `brightness(1.2)`; each 0.1 step is a visible change, 1.0 is the raw video).
+- **Page background** — `BG-code.mp4`, fixed behind the whole page. Brightness is set by the `filter` on `.bg-video` in `index.css` (currently `brightness(1.25)`; each 0.1 step is a visible change, 1.0 is the raw video).
 - **Hero animation** — `hero-float-silent.mp4`, blended over the hero (`.hero-float-video`).
 
 ### Why videos are drawn on a canvas
 Safari paints its own play button on any visible `<video>` and CSS can't remove it. `createPlayOnceVideo()` in `playOnce.js` therefore plays the real video as a 2px invisible element and draws its frames onto a `<canvas>` (which gets the `.bg-video` / `.hero-float-video` class). Autoplay is retried when the video is ready and on the first click, tap or key press, since browsers may block it until a user gesture. Videos must stay muted with no audio track.
+
+### Start-up speed
+The hero video is preloaded from `index.html` and gets the bandwidth first; the background video only starts downloading once the hero one can play. Keep video files "faststart" (the `moov` index at the front of the .mp4) or playback can't begin until the whole file has downloaded. If you re-encode, use `ffmpeg -movflags +faststart`.
 
 ## TODOs in code (search "TODO")
 - LinkedIn URL (App.jsx, contact section)

@@ -120,7 +120,7 @@ export default function HeroCubeZoom() {
     const stageEl = stageRef.current;
     let floatCleanup;
     if (stageEl && !stageEl.querySelector('.hero-float-video')) {
-      const { vid, cleanup } = createPlayOnceVideo('/hero-float-silent.mp4', 'hero-float-video');
+      const { vid, cleanup } = createPlayOnceVideo('/hero-float-silent.mp4', 'hero-float-video', { isHero: true });
       floatCleanup = cleanup;
       stageEl.insertBefore(vid, stageEl.firstChild);
     }

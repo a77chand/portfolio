@@ -8,7 +8,12 @@
 // Autoplay can be blocked outright (Safari in Low Power Mode, strict autoplay
 // settings). If the video is still paused shortly after load, fall back to stepping
 // through it by seeking, which needs no user gesture, so the animation always runs.
-export function createPlayOnceVideo(src, className) {
+// Lets the main (hero) video get the bandwidth first: a video created with
+// `waitFor: heroReady.promise` doesn't start downloading until the hero one can play.
+let resolveHero;
+export const heroReady = { promise: new Promise(r => { resolveHero = r; }), resolve: () => resolveHero() };
+
+export function createPlayOnceVideo(src, className, { waitFor, isHero } = {}) {
   const video = document.createElement('video');
   const vid = document.createElement('canvas');
   vid.className = className;
@@ -34,8 +39,18 @@ export function createPlayOnceVideo(src, className) {
   video.loop = false;
   video.autoplay = true;
   video.preload = 'auto';
-  video.src = src;
   document.body.appendChild(video);
+  const setSrc = () => { if (!video.src) video.src = src; };
+  if (waitFor) {
+    // never wait more than 6s, so a stalled hero video can't hold the background back
+    Promise.race([waitFor, new Promise(r => setTimeout(r, 6000))]).then(setSrc);
+  } else {
+    setSrc();
+  }
+  if (isHero) {
+    video.addEventListener('canplaythrough', heroReady.resolve, { once: true });
+    video.addEventListener('error', heroReady.resolve, { once: true });
+  }
 
   let dead = false;
   let finished = false;
@@ -52,7 +67,8 @@ export function createPlayOnceVideo(src, className) {
   const media = ['loadedmetadata', 'loadeddata', 'canplay'];
   const tryPlay = () => {
     if (scrubbing || video.ended || !video.paused) return;
-    video.play().catch(() => {});
+    // A policy block rejects right away, so start the fallback immediately.
+    video.play().catch(err => { if (err && err.name === 'NotAllowedError') startScrub(); });
   };
   const stopRetry = () => {
     events.forEach(e => window.removeEventListener(e, tryPlay));
@@ -96,7 +112,7 @@ export function createPlayOnceVideo(src, className) {
 
   tryPlay();
   const t1 = setTimeout(tryPlay, 300);
-  const t2 = setTimeout(startScrub, 900);
+  const t2 = setTimeout(startScrub, 500); // safety net if play() neither resolves nor rejects
 
   return {
     vid,

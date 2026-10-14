@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { createPlayOnceVideo } from './playOnce.js';
+import { createPlayOnceVideo, heroReady } from './playOnce.js';
 import GooeyNav from './components/GooeyNav/GooeyNav.jsx';
 import HeroCubeZoom from './components/HeroCubeZoom.jsx';
 import Orb from './components/Orb.jsx';
@@ -18,7 +18,7 @@ const galleryItems = [
 
 export default function App() {
   useEffect(() => {
-    const { vid, cleanup } = createPlayOnceVideo('/BG-code.mp4', 'bg-video');
+    const { vid, cleanup } = createPlayOnceVideo('/BG-code.mp4', 'bg-video', { waitFor: heroReady.promise });
     document.body.insertBefore(vid, document.body.firstChild);
     return cleanup;
   }, []);
