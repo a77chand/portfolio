@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import GooeyNav from './components/GooeyNav/GooeyNav.jsx';
-import CircularGallery from './components/CircularGallery/CircularGallery.jsx';
 import HeroCubeZoom from './components/HeroCubeZoom.jsx';
 import Orb from './components/Orb.jsx';
 import DotMatrix from './components/DotMatrix.jsx';
@@ -21,9 +20,10 @@ export default function App() {
     const bgVid = document.querySelector('.bg-video');
     if (!bgVid) return;
     bgVid.muted = true;
+    bgVid.loop = false;
     bgVid.play().catch(() => {});
     const onInteract = () => {
-      bgVid.play().catch(() => {});
+      if (!bgVid.ended) bgVid.play().catch(() => {});
       document.removeEventListener('click', onInteract);
     };
     document.addEventListener('click', onInteract);
@@ -35,10 +35,12 @@ export default function App() {
       <video
         className="bg-video"
         autoPlay
-        loop
         muted
         playsInline
-        ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
+        controls={false}
+        disablePictureInPicture
+        preload="auto"
+        ref={el => { if (el) { el.muted = true; el.loop = false; el.play().catch(() => {}); } }}
       >
         <source src="/BG-code.mp4" type="video/mp4" />
       </video>
@@ -68,21 +70,13 @@ export default function App() {
 
       <section className="sec sec-full" id="projects">
         <h2 className="code-head">PROJECTS <span className="br">{'{'}</span></h2>
-        <div className="gallery-holder">
-          <CircularGallery
-            items={galleryItems}
-            bend={2}
-            textColor="#ffffff"
-            borderRadius={0.05}
-            scrollSpeed={0.5}
-            scrollEase={0.005}
-          />
-        </div>
-        <div className="proj-links-row">
-          <a href="https://github.com/a77chand/wildfire-risk-prediction" target="_blank" rel="noopener noreferrer">→ wildfire-risk-predictor</a>
-          <a href="https://github.com/a77chand/ethicura-ai" target="_blank" rel="noopener noreferrer">→ ethicura-ai</a>
-          <a href={sigcsePdf} target="_blank" rel="noopener noreferrer">→ SIGCSE 2025 paper</a>
-          <a href="https://tend-daily-care.base44.app" target="_blank" rel="noopener noreferrer">→ tend-daily-care</a>
+        <div className="proj-grid">
+          {galleryItems.map(it => (
+            <a className="proj-card" key={it.text} href={it.href} target="_blank" rel="noopener noreferrer">
+              <img src={it.image} alt="" loading="lazy" />
+              <span className="proj-title">→ {it.text}</span>
+            </a>
+          ))}
         </div>
         <p className="code-close">{'}'}</p>
       </section>

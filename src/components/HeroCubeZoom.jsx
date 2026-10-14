@@ -1,7 +1,6 @@
 // Hero with terrain wave, typing eyebrow, and the scroll-driven cube zoom.
 // Same math as the vanilla version, wrapped in React refs + useEffect.
 import { useEffect, useRef } from 'react';
-import Lanyard from './Lanyard/Lanyard.jsx';
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const cl = v => Math.max(0, Math.min(1, v));
@@ -16,7 +15,6 @@ export default function HeroCubeZoom() {
   const stageRef = useRef(null);
   const pinRef = useRef(null);
   const typedRef = useRef(null);
-  const lanyardRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -252,7 +250,6 @@ export default function HeroCubeZoom() {
         textRef.current.style.opacity = 1 - a;
         textRef.current.style.transform = `translateY(${-a * 40}px)`;
       }
-      if (lanyardRef.current) lanyardRef.current.style.opacity = 1 - a;
       if (cueRef.current) cueRef.current.style.opacity = p > 0.05 ? 0 : 1;
 
       cubeX = lerp(CW - Math.min(CW * 0.22, 190), CW / 2, a);
@@ -298,18 +295,6 @@ export default function HeroCubeZoom() {
             <span className="out">CHANDRA</span>
           </h1>
           <p className="hero-role">// developer&nbsp;&nbsp;·&nbsp;&nbsp;fintech&nbsp;&nbsp;·&nbsp;&nbsp;ml&nbsp;&nbsp;·&nbsp;&nbsp;full stack</p>
-        </div>
-
-        {/* Physics ID card hanging on the right, like the sketch */}
-        <div className="lanyard-slot" ref={lanyardRef}>
-          <Lanyard
-            position={[0, 0, 20]}
-            gravity={[0, -40, 0]}
-            frontImage="/card-front.jpg"
-            backImage="/card-back.jpg"
-            imageFit="cover"
-            lanyardWidth={1}
-          />
         </div>
 
         <canvas className="cube-canvas" ref={cubeRef} />
