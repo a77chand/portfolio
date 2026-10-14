@@ -17,57 +17,50 @@ const galleryItems = [
 
 export default function App() {
   useEffect(() => {
-    const bgVid = document.querySelector('.bg-video');
-    if (!bgVid) return;
-    // React sets muted as a property only; autoplay policies want the attribute.
-    bgVid.setAttribute('muted', '');
-    bgVid.muted = true;
-    bgVid.loop = false;
-    bgVid.setAttribute('playsinline', '');
+    // Build the video imperatively so Safari sees muted/playsinline before src loads.
+    const vid = document.createElement('video');
+    vid.className = 'bg-video';
+    vid.setAttribute('muted', '');
+    vid.setAttribute('playsinline', '');
+    vid.setAttribute('webkit-playsinline', '');
+    vid.setAttribute('disablepictureinpicture', '');
+    vid.setAttribute('disableremoteplayback', '');
+    vid.setAttribute('x-webkit-airplay', 'deny');
+    vid.muted = true;
+    vid.defaultMuted = true;
+    vid.playsInline = true;
+    vid.controls = false;
+    vid.loop = false; // play once, freeze on the last frame
+    vid.autoplay = true;
+    vid.preload = 'auto';
+    vid.src = '/BG-code.mp4';
+    document.body.insertBefore(vid, document.body.firstChild);
 
+    const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
+    const media = ['loadedmetadata', 'loadeddata', 'canplay'];
     const tryPlay = () => {
-      if (bgVid.ended || !bgVid.paused) return;
-      bgVid.play().catch(() => {});
+      if (vid.ended || !vid.paused) return;
+      vid.play().catch(() => {});
     };
-    const onPlaying = () => {
-      bgVid.classList.add('ready');
-      cleanup();
-    };
-    const events = ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart', 'click'];
-    const cleanup = () => {
+    const done = () => {
       events.forEach(e => window.removeEventListener(e, tryPlay));
-      ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(e => bgVid.removeEventListener(e, tryPlay));
+      media.forEach(e => vid.removeEventListener(e, tryPlay));
     };
-
-    ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(e => bgVid.addEventListener(e, tryPlay));
+    media.forEach(e => vid.addEventListener(e, tryPlay));
     events.forEach(e => window.addEventListener(e, tryPlay, { passive: true }));
-    bgVid.addEventListener('playing', onPlaying);
-    bgVid.load();
+    vid.addEventListener('playing', done, { once: true });
     tryPlay();
-    // second attempt shortly after mount, in case the first raced the load
     const t = setTimeout(tryPlay, 300);
 
     return () => {
       clearTimeout(t);
-      cleanup();
-      bgVid.removeEventListener('playing', onPlaying);
+      done();
+      vid.remove();
     };
   }, []);
 
   return (
     <>
-      <video
-        className="bg-video"
-        autoPlay
-        muted
-        playsInline
-        controls={false}
-        disablePictureInPicture
-        preload="auto"
-      >
-        <source src="/BG-code.mp4" type="video/mp4" />
-      </video>
-
       <canvas id="comet"></canvas>
 
       <div style={{ position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
