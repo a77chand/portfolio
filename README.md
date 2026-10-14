@@ -1,5 +1,7 @@
 # Anusha Chandra — Portfolio (React)
 
+**Live site:** https://anusha-chandra.vercel.app
+
 React + Vite single-page portfolio: scroll-driven hero, project cards, about, skills, interests and a contact form.
 
 ## Run locally
@@ -8,7 +10,7 @@ React + Vite single-page portfolio: scroll-driven hero, project cards, about, sk
 3. `npm run dev` → open the printed localhost URL
 
 ## Deploy (Vercel)
-Push this folder to a GitHub repo, import it on vercel.com — Vite is auto-detected. Every push to `main` redeploys.
+Live at https://anusha-chandra.vercel.app. Push this folder to a GitHub repo, import it on vercel.com — Vite is auto-detected. Every push to `main` redeploys.
 
 ## Structure
 - `src/App.jsx` — page sections, nav, project cards (`galleryItems`)
