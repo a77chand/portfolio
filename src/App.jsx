@@ -7,11 +7,14 @@ import DotMatrix from './components/DotMatrix.jsx';
 import ContactForm from './components/ContactForm.jsx';
 import sigcseImg from './assets/sigcse.jpg';
 import tendImg from './assets/tend-logo.jpg';
+import ethicuraLiveImg from './assets/ethicura-live.jpg';
 import sigcsePdf from './assets/SIGCSE_Poster_Learning_Outcomes_LLM.pdf?url';
 
 const galleryItems = [
-  { image: 'https://raw.githubusercontent.com/a77chand/wildfire-risk-prediction/main/wildfire_risk_map.png', text: 'Wildfire Risk Predictor', href: 'https://github.com/a77chand/wildfire-risk-prediction' },
+  { image: 'https://raw.githubusercontent.com/a77chand/wildfire-risk-prediction/main/reports/figures/risk_map_peak_week.png', text: 'Wildfire Risk Predictor', href: 'https://github.com/a77chand/wildfire-risk-prediction' },
   { image: 'https://raw.githubusercontent.com/a77chand/ethicura-ai/main/assets/summary.png', text: 'Ethicura AI', href: 'https://github.com/a77chand/ethicura-ai' },
+  { image: ethicuraLiveImg, text: 'Ethicura AI — Live Browser Demo', href: 'https://ethicura-frontend.vercel.app' },
+  { image: 'https://raw.githubusercontent.com/a77chand/Pack_Ween1/main/docs/screenshot.jpg', text: 'Pack_Ween — ElleHacks Game', href: 'https://github.com/a77chand/Pack_Ween1' },
   { image: sigcseImg, text: 'AI Bias Research — SIGCSE 2025', href: sigcsePdf },
   { image: tendImg, text: 'Tend — NGO Work', href: 'https://tend-daily-care.base44.app' },
 ];
