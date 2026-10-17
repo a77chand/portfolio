@@ -35,7 +35,6 @@ Safari paints its own play button on any visible `<video>` and CSS can't remove 
 The hero video is preloaded from `index.html` and gets the bandwidth first; the background video only starts downloading once the hero one can play. Keep video files "faststart" (the `moov` index at the front of the .mp4) or playback can't begin until the whole file has downloaded. If you re-encode, use `ffmpeg -movflags +faststart`.
 
 ## TODOs in code (search "TODO")
-- LinkedIn URL (App.jsx, contact section)
 - Optional: replace project images in `galleryItems` with real screenshots
 
 ## Unused components

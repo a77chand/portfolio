@@ -122,7 +122,7 @@ export default function App() {
         <div className="c-side">
           <a className="c-row" href="https://github.com/a77chand" target="_blank" rel="noopener noreferrer"><span className="c-ic">⌥</span>github.com/a77chand</a>
           <a className="c-row" href="mailto:a77chand@uwaterloo.ca"><span className="c-ic">✉</span>a77chand@uwaterloo.ca</a>
-          <a className="c-row" href="#"><span className="c-ic">in</span>linkedin.com/in/yourname</a>{/* TODO */}
+          <a className="c-row" href="https://www.linkedin.com/in/anushachandra" target="_blank" rel="noopener noreferrer"><span className="c-ic">in</span>linkedin.com/in/anushachandra</a>
         </div>
         <p className="code-close">{'}'}</p>
         <p className="closing">// thanks for visiting&nbsp;<span className="type-cursor vi">█</span></p>
