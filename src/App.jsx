@@ -70,8 +70,8 @@ export default function App() {
           <Orb size={200} />
           <div className="about-text">
             <p>Hi, I'm <span className="hi">Anusha Chandra</span> — CS student at the <span className="hi">University of Waterloo</span>.</p>
-            <p>I build things at the intersection of <span className="vi">software, machine learning, and ethics</span>. Co-creator of <span className="vi">Ethicura AI</span> at NYAS — a deepfake detector (<span className="vi">XceptionNet + MTCNN</span>) that explains every call with Grad-CAM, served through a <span className="vi">FastAPI</span> API.</p>
-            <p>I also built a <span className="vi">wildfire risk predictor</span> — a Random Forest on NASA FIRMS satellite data across British Columbia (<span className="vi">ROC-AUC ≈ 0.91</span>). Research contributor at <span className="vi">SIGCSE 2025</span> and builder of <span className="vi">Tend</span>, a wellness app for unpaid caregivers — passionate about responsible AI throughout.</p>
+            <p>I build things at the intersection of <span className="vi">software, machine learning, and ethics</span>. Co-creator of <span className="vi">Ethicura AI</span> at NYAS — a deepfake detector that explains every call with a Grad-CAM heatmap, served through a <span className="vi">FastAPI</span> API and as a <span className="vi">live webcam demo that runs entirely in the browser</span> (ONNX Runtime Web + WebGPU).</p>
+            <p>I also built a <span className="vi">wildfire ignition risk model</span> for British Columbia — gradient boosting on 20 years of ignition records and fire-weather data, tested on future years it never saw (<span className="vi">ROC-AUC 0.887</span> vs. a 0.861 climatology baseline). Research contributor at <span className="vi">SIGCSE 2025</span> and builder of <span className="vi">Tend</span>, a wellness app for unpaid caregivers — passionate about responsible AI throughout.</p>
           </div>
         </div>
         <p className="code-close">{'}'}</p>
