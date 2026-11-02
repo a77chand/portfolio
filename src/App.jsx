@@ -69,9 +69,10 @@ export default function App() {
         <div className="about-grid">
           <Orb size={200} />
           <div className="about-text">
-            <p>Hi, I'm <span className="hi">Anusha Chandra</span> — CS student at the <span className="hi">University of Waterloo</span>.</p>
-            <p>I build things at the intersection of <span className="vi">software, machine learning, and ethics</span>. Co-creator of <span className="vi">Ethicura AI</span> at NYAS — a deepfake detector that explains every call with a Grad-CAM heatmap, served through a <span className="vi">FastAPI</span> API and as a <span className="vi">live webcam demo that runs entirely in the browser</span> (ONNX Runtime Web + WebGPU).</p>
-            <p>I also built a <span className="vi">wildfire ignition risk model</span> for British Columbia — gradient boosting on 20 years of ignition records and fire-weather data, tested on future years it never saw (<span className="vi">ROC-AUC 0.887</span> vs. a 0.861 climatology baseline). Research contributor at <span className="vi">SIGCSE 2025</span> and builder of <span className="vi">Tend</span>, a wellness app for unpaid caregivers — passionate about responsible AI throughout.</p>
+            <p>Hi, I'm <span className="hi">Anusha Chandra</span> — a Computer Science co-op student at the <span className="hi">University of Waterloo</span> on the President's Scholarship of Distinction. I build where <span className="vi">software, machine learning, and ethics</span> meet.</p>
+            <p>Most recently I was a <span className="vi">Software Engineering Intern at Cholayil</span>, where my Power BI dashboards saved the sales team 4 man-days per reporting cycle. Before that I did deepfake-detection research at the <span className="vi">New York Academy of Sciences</span> and co-authored an AI-bias poster at <span className="vi">SIGCSE 2025</span>.</p>
+            <p>Right now I'm building <span className="vi">Huddle</span>, an end-to-end encrypted safety app for groups on nights out, with a 0.5B model I fine-tuned to run on the phone. I also rebuilt <span className="vi">Ethicura AI</span> into a deepfake detector that reaches <span className="vi">AUC 0.986</span> on unseen people and runs live in the browser, and built a <span className="vi">wildfire ignition forecast</span> for BC that beats a climatology baseline on held-out years.</p>
+            <p>Outside code, I've led STEM and AI-ethics sessions for trafficking survivors with <span className="vi">TribesforGOOD</span>.</p>
           </div>
         </div>
         <p className="code-close">{'}'}</p>
