@@ -6,19 +6,17 @@ import Orb from './components/Orb.jsx';
 import DotMatrix from './components/DotMatrix.jsx';
 import ContactForm from './components/ContactForm.jsx';
 import sigcseImg from './assets/sigcse.jpg';
-import tendImg from './assets/tend-logo.jpg';
 import ethicuraLiveImg from './assets/ethicura-live.jpg';
 import huddleImg from './assets/huddle-screens.jpg';
 import sigcsePdf from './assets/SIGCSE_Poster_Learning_Outcomes_LLM.pdf?url';
 
 const galleryItems = [
-  { image: huddleImg, text: 'Huddle — Group Safety App for Nights Out (on-device AI)', href: 'https://github.com/a77chand/huddle', featured: true },
+  { image: huddleImg, text: 'Huddle — Night-Out Safety App', href: 'https://github.com/a77chand/huddle' },
   { image: 'https://raw.githubusercontent.com/a77chand/wildfire-risk-prediction/main/reports/figures/risk_map_peak_week.png', text: 'Wildfire Risk Predictor', href: 'https://github.com/a77chand/wildfire-risk-prediction' },
   { image: 'https://raw.githubusercontent.com/a77chand/ethicura-ai/main/assets/summary.png', text: 'Ethicura AI', href: 'https://github.com/a77chand/ethicura-ai' },
   { image: ethicuraLiveImg, text: 'Ethicura AI — Live Browser Demo', href: 'https://ethicura-frontend.vercel.app' },
   { image: 'https://raw.githubusercontent.com/a77chand/Pack_Ween1/main/docs/screenshot.jpg', text: 'Pack_Ween — ElleHacks Game', href: 'https://github.com/a77chand/Pack_Ween1' },
   { image: sigcseImg, text: 'AI Bias Research — SIGCSE 2025', href: sigcsePdf },
-  { image: tendImg, text: 'Tend — NGO Work', href: 'https://tend-daily-care.base44.app' },
 ];
 
 export default function App() {
@@ -57,7 +55,7 @@ export default function App() {
         <h2 className="code-head">PROJECTS <span className="br">{'{'}</span></h2>
         <div className="proj-grid">
           {galleryItems.map(it => (
-            <a className={it.featured ? 'proj-card featured' : 'proj-card'} key={it.text} href={it.href} target="_blank" rel="noopener noreferrer">
+            <a className="proj-card" key={it.text} href={it.href} target="_blank" rel="noopener noreferrer">
               <img src={it.image} alt="" loading="lazy" />
               <span className="proj-title">→ {it.text}</span>
             </a>
